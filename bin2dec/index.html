@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/slate/bootstrap.min.css" rel="stylesheet" integrity="sha384-G9YbB4o4U6WS4wCthMOpAeweY4gQJyyx0P3nZbEBHyz+AtNoeasfRChmek1C2iqV" crossorigin="anonymous">
+    <title>Bin2Dec</title>
+</head>
+<body>
+    <div class="container mt-4">
+
+        <h1 class="display-4 text-center">Bin2Dec</h1>
+        
+        <div class="card border-dark mb-4 mt-4">
+            <h3 class="card-header">Convertisseur binaire en décimal</h3>
+            <div class="card-body">
+              <h4 class="card-title">Infos</h4>
+              <p class="card-text">Clicker sur le bouton Convertir pour avoir la valeur en décimal</p>
+            </div>
+        </div>
+
+        <form class="form">
+            <div class="form-group">
+                <label for="binary">Binaire</label>
+                <input type="text" class="form-control" id="binary">
+            </div>
+
+            <div class="form-group">
+                <fieldset disabled="">
+                  <label>Décimal</label>
+                  <input class="form-control" id="results" type="text" placeholder="Résultat" disabled="">
+                </fieldset>
+            </div>
+
+            <input type="submit" value="Convertir" class="btn btn-primary btn-lg btn-block">
+        </form>
+
+
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
