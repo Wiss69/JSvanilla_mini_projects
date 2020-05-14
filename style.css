@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam&display=swap');
+body {
+    font-family: 'Kalam', cursive;
+    background-color: rgb(235, 235, 235);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+* {
+    box-sizing: border-box;
+    
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+
+.container {
+    border: 1px solid rgb(107, 107, 107);
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px rgb(155, 155, 155);
+    background-color: rgb(224, 219, 219);
+}
+
+.form-field {
+    text-align: center;
+    position: relative;
+}
+
+.form-field.success > input {
+    border-color:rgb(0, 133, 40);
+}
+
+.form-field > small {
+    visibility: hidden;
+}
+
+.form-field.error small {
+    visibility: visible;
+}
+.form-field.error input {
+    border-color: rgb(255, 84, 84);
+}
+
+label {
+    display: block;
+}
+
+input {
+    width: 100%;
+    border: 2px #aaa solid;
+    border-radius: 3px;
+    background-color: rgb(224, 219, 219);
+}
+
+input:focus {
+    outline: 0;
+    border-color: #555;
+}
+.form {
+    text-align: center;
+}
+
+button {
+    margin-top: 10px;
+    border: none;
+    border-radius: 3px;
+    width: 100%;
+    padding: 3px;
+    font-family: 'Kalam', cursive;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: #777;
+}
+
+button:hover {
+    font-weight: bold;
+}
