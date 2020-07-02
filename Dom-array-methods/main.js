@@ -1,32 +1,56 @@
 var tbobyEl = document.getElementById('content');
 
+loadRandomUser();
+loadRandomUser();
+loadRandomUser();
 /**
- * Load randomly 3 person automatically when content is diplayed
+ * Load Random User
  */
-fetch('https://randomuser.me/api/?results=3', { method: 'GET' })
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data.results);
-    const results = data.results;
-    // const tbobyEl = document.getElementById('content');
-    results.forEach((data) => {
-      const trEl = document.createElement('tr');
-      const tdNameEl = document.createElement('td');
-      const tdMoneyEl = document.createElement('td');
-      const money = getRandomIntInclusive(111, 11111111);
-      const firstName = data.name.first;
-      tdNameEl.textContent = firstName;
-      tdMoneyEl.textContent = money + ' ' + '\u20AC';
-      // Append the name + the money to the row
-      trEl.appendChild(tdNameEl);
-      trEl.appendChild(tdMoneyEl);
-      // Append the row to the tbody elment of the table el in the HTML.
-      tbobyEl.appendChild(trEl);
-    });
-  })
-  .catch((err) => console.log(err));
+function loadRandomUser() {
+  fetch('https://randomuser.me/api', { method: 'GET' })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const user = data.results[0];
+      const newUser = {
+        name: `${user.name.first}`,
+        money: getRandomIntInclusive(100, 100000000),
+      };
+      addData(newUser);
+    })
+    .catch((err) => console.log(err));
+}
+
+var data = [];
+// Add user to an empty []
+function addData(newUser) {
+  data.push(newUser);
+  updateDom();
+}
+
+/**
+ *Update DOM
+ * */
+
+function updateDom(providedData = data) {
+  console.log(data);
+  // Clear the content before display to avoid the 'doubles'
+  tbobyEl.innerHTML = '';
+  providedData.forEach((item) => {
+    console.log(item);
+    const trEl = document.createElement('tr');
+    const tdNameEl = document.createElement('td');
+    const tdMoneyEl = document.createElement('td');
+    tdNameEl.textContent = item.name;
+    tdMoneyEl.textContent = item.money;
+    // Append the name + the money to the row
+    trEl.appendChild(tdNameEl);
+    trEl.appendChild(tdMoneyEl);
+    // Append the row to the tbody elment of the table el in the HTML.
+    tbobyEl.appendChild(trEl);
+  });
+}
 
 // On renvoie un entier aléatoire entre une valeur min (incluse)
 // et une valeur max (incluse).
@@ -39,34 +63,11 @@ function getRandomIntInclusive(min, max) {
 }
 
 /**
- * Add User => fetch API to add 1 person to the array on 'click'
+ * Add User
  */
 
 document.getElementById('add').addEventListener('click', (e) => {
-  console.log(e);
-  e.preventDefault();
-  fetch('https://randomuser.me/api/?results=1', { method: 'GET' })
-    .then((data) => {
-      return data.json();
-    })
-    .then((data) => {
-      // Get the name
-      const name = data.results[0].name.first;
-      // Get the money
-      const money = getRandomIntInclusive(111, 1111111);
-      // Create content containers
-      const trEl = document.createElement('tr');
-      const tdNameEl = document.createElement('td');
-      const tdMoneyEl = document.createElement('td');
-      // Set values to td element
-      tdNameEl.textContent = name;
-      tdMoneyEl.textContent = money + ' ' + '\u20AC';
-      // Append td to the row tr
-      trEl.appendChild(tdNameEl);
-      trEl.appendChild(tdMoneyEl);
-      // Append tr to the body
-      tbobyEl.appendChild(trEl);
-    });
+  loadRandomUser();
 });
 
 /**
@@ -74,30 +75,42 @@ document.getElementById('add').addEventListener('click', (e) => {
  */
 
 document.getElementById('double').addEventListener('click', (e) => {
-  e.preventDefault();
-  console.log(document.querySelectorAll('tr > td:nth-child(2)'));
-  const allMoneyArr = document.querySelectorAll('tr > td:nth-child(2)');
-  // allMoneyArr.forEach((moneyEl) => {
-  //   // console.log(parseInt(moneyEl.textContent, 10) * 2);
-  //   // const strToInt = parseInt(moneyEl.textContent, 10);
-  //   // const doubleMoney = strToInt * 2;
-  //   // moneyEl.textContent = doubleMoney + ' ' + '\u20AC';
-  // });
-  // console.log(Array.from(document.querySelectorAll('td')));
-  Array.from(allMoneyArr).map((value, index, number) => {
-    console.log(
-      'value',
-      (doubleValue = parseInt(value.textContent, 10) * 2),
-      'index',
-      index,
-      'number',
-      number
-    );
-    value.textContent = doubleValue + '\u20AC';
+  data = data.map((user) => {
+    return { ...user, money: user.money * 2 };
   });
+  console.log(data);
+  updateDom();
 });
 /**
  * Show only Millionaires
  */
 
-document.getElementById('millionaires').addEventListener('click', (e) => {});
+document.getElementById('millionaires').addEventListener('click', (e) => {
+  data = data.filter((user) => user.money > 1000000);
+  console.log(data);
+  updateDom();
+});
+
+/**
+ * Sort by richest
+ */
+
+document.getElementById('richest').addEventListener('click', (e) => {
+  data = data.sort((a, b) => b.money - a.money);
+  console.log(data);
+  updateDom();
+});
+
+/**
+ * Total wealth
+ */
+
+document.getElementById('total').addEventListener('click', (e) => {
+  const wealth = data.reduce((acc, user) => (acc += user.money), 0);
+  console.log(wealth);
+
+  const divEl = document.createElement('div');
+  divEl.innerHTML = `Total wealth : ${wealth}`;
+  console.log(divEl);
+  tbobyEl.appendChild(divEl);
+});
