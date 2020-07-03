@@ -3,6 +3,7 @@
 body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
+  transition: all 0.9s ease-out;
 }
 
 * {
@@ -66,7 +67,6 @@ p {
 }
 
 .show {
-  transition: all 0.9s ease-out;
   transform: translate3d(27%, 0, 0);
 }
 
